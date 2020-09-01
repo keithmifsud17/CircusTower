@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CircusTower": {
+      "commandName": "Project",
+      "commandLineArgs": "-f ./input.txt --weightFirst"
+    }
+  }
+}
