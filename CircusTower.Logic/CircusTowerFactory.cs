@@ -23,8 +23,7 @@ namespace CircusTower
             // Initially, the longest person is the longest circus tower
             var longestTower = towerCache.Last().Value;
 
-            // We do not need to go over the first set (i=0) since we already established the longest tower at this point
-            for (int i = 1; i < people.Count(); i++)
+            for (int i = 0; i < people.Count(); i++)
             {
                 var person = people.ElementAt(i);
 

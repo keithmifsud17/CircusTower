@@ -33,52 +33,52 @@ namespace CircusTower.Tests
         }
 
         [Fact]
-        public void TestComplexScenario()
+        public void TestIgnoreInvalidPaths()
         {
             var people = new List<Person>
             {
-                new Person(1, 1),
-                new Person(1, 7),
-                new Person(1, 9),
-
-                new Person(2, 2),
-                new Person(2, 6),
-
-                new Person(3, 3),
-                new Person(3, 5),
-
-                new Person(4, 4),
+                new Person(50, 150),
+                new Person(60, 160),
+                new Person(70, 170),
+                new Person(80, 140), // This person will not be considered since they are shorter and heavier
             };
 
             var tower = new CircusTowerFactory(people).BuildCircusTower();
 
             // each person needs to be both lighter and shorter than the next, thus 1,7 wont qualify
             tower.Should().BeEquivalentTo(
-                new Person(1, 1),
-                new Person(2, 2),
-                new Person(3, 3),
-                new Person(4, 4)
+                new Person(50, 150),
+                new Person(60, 160),
+                new Person(70, 170)
             );
         }
 
         [Fact]
-        public void TestSimpleScenario()
+        public void TestComplexScenario()
         {
             var people = new List<Person>
             {
-                new Person(1, 1),
-                new Person(2, 2),
-                new Person(3, 3),
-                new Person(4, 1),
+                new Person(50, 150),
+                new Person(50, 180),
+                new Person(50, 190),
+
+                new Person(60, 160),
+                new Person(60, 170),
+
+                new Person(70, 170),
+                new Person(70, 180),
+
+                new Person(80, 190),
             };
 
             var tower = new CircusTowerFactory(people).BuildCircusTower();
 
             // each person needs to be both lighter and shorter than the next, thus 1,7 wont qualify
             tower.Should().BeEquivalentTo(
-                new Person(1, 1),
-                new Person(2, 2),
-                new Person(3, 3)
+                new Person(50, 150),
+                new Person(60, 160),
+                new Person(70, 170),
+                new Person(80, 190)
             );
         }
 
@@ -87,24 +87,24 @@ namespace CircusTower.Tests
         {
             var people = new List<Person>
             {
-                new Person(1, 1),
-                new Person(1, 7),
-                new Person(1, 13),
+                new Person(50, 150),
+                new Person(50, 180),
+                new Person(50, 680), // Impossible height, but shows ability to select a short path with higher height
 
-                new Person(2, 2),
-                new Person(2, 6),
+                new Person(60, 160),
+                new Person(60, 170),
 
-                new Person(3, 3),
-                new Person(3, 5),
+                new Person(70, 170),
+                new Person(70, 180),
 
-                new Person(4, 4),
+                new Person(80, 190),
             };
 
             var tower = new CircusTowerFactory(people).BuildCircusTower();
 
             // {1,13} is longer than the {1,1}, {2,2}, {3,3}, {4,4} tower
             tower.Should().BeEquivalentTo(
-                new Person(1, 13)
+                new Person(50, 680)
             );
         }
     }
